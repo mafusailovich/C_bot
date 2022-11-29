@@ -1,6 +1,6 @@
 import telebot
 from config import TOKEN,keys
-from extensions import Converter,APIExceprion
+from extensions import Converter,APIException
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -26,11 +26,11 @@ def convert(message: telebot.types.Message):
         values = message.text.split(' ')
 
         if len(values) != 3:
-            raise APIExceprion('Слишком много параметров.')
+            raise APIException('Слишком много параметров.')
 
         quote, base, amount = values
         total_base = Converter.get_price(quote,base,amount)
-    except APIExceprion as e:
+    except APIException as e:
         bot.reply_to(message, f'Ошибка ввода на стороне пользователя\n{e}')
     except Exception as e:
         bot.reply_to(message,f'Не удалось обработать команду\n{e}')
